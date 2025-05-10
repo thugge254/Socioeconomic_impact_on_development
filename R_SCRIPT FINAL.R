@@ -11,20 +11,13 @@ library(forecast)
 library(corrplot)
 library(readxl)
 
-
-
-
 MISSING_DATA <- read_excel("MISSING DATA.xlsx")
 View(MISSING_DATA)
-
-
 
 # MISSING VALUES DETECTION AND HANDLING
 # Calculate the total number of missing values in each variable
 missing_counts <- colSums(is.na(MISSING_DATA))
 print(missing_counts)
-
-
 
 miss_var_summary(MISSING_DATA)
 
@@ -40,7 +33,6 @@ gg_miss_var(MISSING_DATA, show_pct = TRUE) +
   ggtitle("Missing Values Visualization")+
   theme(plot.title = element_text(hjust = 0.5))
 
- 
 # Z score
 
 # Extract the relevant numeric columns
@@ -81,8 +73,6 @@ boxplot(numeric_columns, col = ifelse(outliers, "red", "blue"),
 # Add a legend with red color for outliers
 legend("topright", legend = c("Normal", "Outlier"), fill = c("blue", "red"), border = "white")
 
-
-
 # Numeric columns
 numeric_columns <- c("GDP", "PH", "EEL", "UR", "P", "LE")
 
@@ -118,9 +108,6 @@ for (col_name in numeric_columns) {
 print("Updated Dataset:")
 print(my_data)
 
-
-
-
 # Median replacement  outlier 
 
 # Numeric columns
@@ -151,11 +138,6 @@ print("Updated Dataset:")
 print(my_data)
 
 
-
-
-  
-  
- 
 # Calculate the mean of each variable
 means <- colMeans(my_data[, 3:8], na.rm = TRUE)
 my_data = as.data.frame(lapply(my_data, function(x) ifelse(is.na(x), means, x)))
@@ -292,9 +274,6 @@ best_ridge_model <- glmnet(X, Y, alpha=0, lambda=best_lambda)
 coefficients(best_ridge_model)
 
 
-
-
-
 # Matrix setup: Create a matrix of independent variables (socio-economic indicators) and the dependent variable (GDP).
 X <- as.matrix(data[, c("EEL", "PH", "UR", "P", "LE")])
 y <- data$GDP
@@ -353,7 +332,6 @@ var_model <- VAR(ts_data, p = 2)
 summary(var_model)
 
 
-
 #Exponential Smoothing
 
 time_series_data <- ts(data$GDP, frequency = 1)
@@ -366,9 +344,6 @@ summary(hw_model)
 
 # Plot the forecasts
 plot(forecast(hw_model))
-
-
-
 
 
 # Numeric columns
